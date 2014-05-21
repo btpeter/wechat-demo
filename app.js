@@ -46,7 +46,7 @@ api.getAccessToken(function(err, result){
 
 
 // wechat message api
-app.use('/nodejs/wechat', wechat('hellowechat', function(req, res, next){
+app.use('/nodejs/wechat', wechat(conf.wechat.apptoken, function(req, res, next){
 
   var message = req.weixin;
   // console.log('From' + message.FromUserName);
