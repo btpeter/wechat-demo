@@ -1,12 +1,12 @@
 {
   "button": [ {
     "type": "click",
-    "name": "最新",
+    "name": "图片测试",
     "key": "DEMO_001"
   },
   {
     "type": "click",
-    "name": "歌手",
+    "name": "文章测试",
     "key": "DEMO_002"
   },
   {

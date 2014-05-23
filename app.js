@@ -6,44 +6,21 @@ var fs = require('fs'),
 var app = express();
 
 var API = require('wechat').API;
-var conf, menuStr, DEBUG;
+var conf,  DEBUG;
 
 // config
 try {
-  conf = yaml.safeLoad(fs.readFileSync('./conf.yml', 'utf-8'));
+  conf = yaml.safeLoad(fs.readFileSync('config/conf.yml', 'utf-8'));
 } catch (e) {
   console.log(e);
 }
+console.log(conf);
 
-menuStr = fs.readFileSync('./menu.json', 'utf-8');
+// var
 DEBUG = conf.debug;
 
 // middleware
 app.use(bodyParser.urlencoded());
-
-
-// wechat common api
-var api = new API(conf.wechat.appid, conf.wechat.appsecret);
-api.getAccessToken(function(err, result){
-  if (err) { console.log(err); }
-  DEBUG && console.log(result);
-  // wechat menu
-  api.getMenu(function(err, result){
-    if (err) { console.log(err); }
-    if (!result) {
-      api.createMenu(menuStr, function(err, result){
-        if (err) { console.log(err); }
-        DEBUG && console.log('menu created: ', result);
-      });
-    }
-    // if (result.menu) {
-    //   api.removeMenu(function(err, result){
-    //     console.log('menu deleted:', result);
-    //   });
-    // }
-  });
-});
-
 
 // wechat message api
 app.use('/nodejs/wechat', wechat(conf.wechat.apptoken, function(req, res, next){
@@ -58,7 +35,9 @@ app.use('/nodejs/wechat', wechat(conf.wechat.apptoken, function(req, res, next){
       break;
     case 'event':
       if (message.EventKey === "DEMO_001") {
-      res.reply('Hello my first event!');
+      res.reply('Hello 图片!');
+    } else if (message.EventKey === "DEMO_002") {
+      res.reply('Hello 文章!');
     } else {
       res.reply('Hello event: ' + message.EventKey);
     }
